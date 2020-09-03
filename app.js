@@ -64,7 +64,7 @@ var socket = io.on('connect', socket => {
   setInterval(() => {
     cars.forEach((car, index)=>{move(car, index)});
     socket.emit("location_change", cars);
-  }, 30);
+  }, 20);
 });
 
 server.listen(3000);
