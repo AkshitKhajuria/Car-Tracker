@@ -19,5 +19,5 @@ npm run start
 ```
 The console will display a link, open it in your browser. Or type `localhost:3000` in your browser.  
 You may have to refresh the page once loaded or when resized.  
-The web page will show 15 cars (red boxes) running up and down a radar (grey area) along with their co-ordinates.  
+The web page will show 15 cars (red boxes) running across the radar (grey area) along with their co-ordinates.  
 **Enjoy!**
