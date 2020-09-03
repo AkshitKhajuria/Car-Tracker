@@ -53,12 +53,11 @@ var socket = io.on('connect', socket => {
     console.log('Connected!');
   }
   socket.on('dimension',dim=>{
-    // console.log("setting screen dim to "+dim.width+"x"+dim.height);
     width=dim.width;
     height=dim.height;
     left=dim.left;
     top=dim.top;
-    console.log(`left ${left} top ${top} width ${width} height ${height}`);
+    // console.log(`left ${left} top ${top} width ${width} height ${height}`);
   });
   socket.emit('cars',num_cars);
   setInterval(() => {
