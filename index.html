@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Car tracker</title>
+    <style>
+        .container {
+            position: relative;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #map {
+            background: grey;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        div#map>div {
+            position: absolute;
+            content: "";
+            width: 25px;
+            height: 25px;
+            background: red;
+            border-radius: 2px;
+        }
+        p {
+            position: absolute;
+        }
+        p::before{
+            content: "(";
+        }
+        p::after{
+            content: ")";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>See your cars here!</h3>
+        <div id="map">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script type="text/javascript">
+        let socket = io.connect('http://localhost:3000');
+        var created = false;
+        socket.on('cars', (data) => {
+            var map = document.getElementById('map');
+            if (!created) {
+                for (let i = 0; i < parseInt(data); i++) {
+                    var div = document.createElement('div');
+                    var p = document.createElement('p');
+                    map.appendChild(div);
+                    map.appendChild(p);
+                }
+                created = true;
+                socket.emit('dimension', {
+                    left: map.offsetLeft,
+                    top: map.offsetTop,
+                    width: map.offsetWidth,
+                    height: map.offsetHeight
+                });
+            }
+        });
+        socket.on('location_change', (data) => {
+            //console.log(data);
+            var divs = document.querySelectorAll('div#map > div');
+            var ps = document.querySelectorAll('div#map > p');
+            data.forEach((element, index) => {
+                divs[index].style.left = element.x + "px";
+                divs[index].style.top = element.y + "px";
+                ps[index].style.left = element.x + "px";
+                ps[index].style.top = element.y-20 + "px";
+                ps[index].innerHTML=element.x+","+element.y;
+            });
+        });
+
+    </script>
+</body>
+
+</html>
